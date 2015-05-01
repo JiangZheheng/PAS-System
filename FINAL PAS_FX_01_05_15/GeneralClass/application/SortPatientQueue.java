@@ -26,7 +26,7 @@ public class SortPatientQueue {
 	/**
 	 * creating an instance of the SMSAlerts Class to be called
 	 */
-	private SMSAlerts smsAlerts = new SMSAlerts();
+	private OnCallSMSAlerts smsAlerts = new OnCallSMSAlerts();
 
 	
 	public InSitu insitu=new InSitu();
@@ -51,18 +51,23 @@ public class SortPatientQueue {
 		if (patientQueue.size() <= Limits.PATIENT_LIMIT_IN_QUEUE) {
 
 			// find the longest waiting time of the patients in the queue
-			long longestWaitingTime = 0;
-
+			long averageWaitingTime = 0;
+			long totalWaitingTime = 0;
+			
 			for (Patient patient : GUIMain.patientQueue) {
-				if (patient.getWaitingTime() > longestWaitingTime) {
-					longestWaitingTime = patient.getWaitingTime() / 1000 / 60;
+				
+				for (int count = 0; count<=patientQueue.size(); count++){
+					totalWaitingTime += patient.getWaitingTime();
+				}
+				{
+					averageWaitingTime = totalWaitingTime / patientQueue.size() / 1000 / 60;
 				}
 			}
-			if (longestWaitingTime >= 0 && longestWaitingTime < 10) {
+			if (averageWaitingTime >= 0 && averageWaitingTime < 10) {
 				status = 1;
-			} else if (longestWaitingTime >= 10 && longestWaitingTime < 20) {
+			} else if (averageWaitingTime >= 10 && averageWaitingTime < 20) {
 				status = 2;
-			} else if (longestWaitingTime >= 20) {
+			} else if (averageWaitingTime >= 20) {
 				status = 3;
 			} else if (GUIMain.patientQueue.size() == Limits.PATIENT_LIMIT_IN_QUEUE) {
 				status = 4;

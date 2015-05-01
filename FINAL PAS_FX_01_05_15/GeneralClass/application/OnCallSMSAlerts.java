@@ -17,7 +17,7 @@ import java.sql.Statement;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 
-public class SMSAlerts implements IAlert {
+public class OnCallSMSAlerts implements IAlert {
 
 	/**
 	 * String to hold managerPhoneNumber
