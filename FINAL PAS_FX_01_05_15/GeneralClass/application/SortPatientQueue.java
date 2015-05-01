@@ -98,8 +98,10 @@ public class SortPatientQueue {
 	 * @throws MessagingException
 	 * @throws AddressException
 	 */
-	public void thirtyMinuteManagerAlert(LinkedList<Patient> patientQueue)
+	public boolean thirtyMinuteManagerAlert(LinkedList<Patient> patientQueue)
 			throws AddressException, MessagingException {
+		
+		boolean twoPatientsWaiting = false;
 
 		// initialising long to get the patient time in the queue
 		long patientTimeInQueue = 0;
@@ -123,14 +125,13 @@ public class SortPatientQueue {
 					* Limits.MULTIPLY_MINUTES_TO_SECONDS) {
 				counter++;
 				if (counter == 2) {
-					managerEmailAlert
-							.generateAndSendEmailPatientsWaitingThirtyMinutes();
-					
-
+					twoPatientsWaiting = true;
+				} else {
+					twoPatientsWaiting = false;
 				}
 
-			}
-		}
+			} 
+		} return twoPatientsWaiting;
 
 	}
 
@@ -150,26 +151,6 @@ public class SortPatientQueue {
 			return true;
 		}
 		return false;
-	}
-
-	/**
-	 * method to redirect a non emergency patient to the nearest hospital if the
-	 * queue reached maximum capacity
-	 * 
-	 * @param patient
-	 */
-	public void sendToNearestHospital(LinkedList<Patient> patientQueue,
-			Patient patient) {
-
-		// if statement to check if the Triage Category as an integer value is
-		// equal to the Emergency level
-		// if they patient is not an emergency patient they are redirected to
-		// the nearest hospital - to be implemented in the calculate queue size
-		// method
-
-			managerEmailAlert.sendSSMSManagerOnCallFullyEngaged();
-			
-
 	}
 
 	/**
